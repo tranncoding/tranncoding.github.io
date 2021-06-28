@@ -1,1 +1,35 @@
+<html>
+<head>
+<title> Menu </title>
+<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+<script>
+function start(){
+sjs.open();
 
+var menu = new sjs.Text("Main Menu",25,"yellow");
+menu.centerH();
+
+var directions = new sjs.Text("Use Arrow Keys to move around.",25,"yellow")
+directions.centerH().offset(0,30);
+
+var game_text = new sjs.Text("Only eat smaller enemies than you!",25,"yellow")
+game_text.centerH().offset(0,60);
+
+var startBtn = new sjs.Button("Start", function(){
+	window.location  =  "fish.html";
+	startBtn.setSize (70,70);
+});
+
+startBtn.center();
+
+var creator = new sjs.Text("Created By Tran", 25,"yellow");
+creator.bottom().centerH();
+}
+</script>
+</head>
+<body onload="start()">
+<h1> Fish </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>
