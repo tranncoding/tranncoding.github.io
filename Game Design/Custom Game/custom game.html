@@ -1,0 +1,191 @@
+<html>
+<head>
+<title> Turnip Ninja</title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+function start(){
+sjs.open("target",500,700);
+var background = new sjs.Image("Images/background.jpg");
+background.setSize(700,700);
+
+//Player
+var player = new sjs.Image("Images/main_character.png");
+player.setSize(70,70);
+player.type = "player";
+player.setGravity(3);
+player.bottom();
+player.friction = 0.1;
+player.noBounds = true;
+sjs.scrollable(player,background);
+
+//Moving functions
+sjs.keyDown(RIGHT_KEY, function(){	
+	player.pushRight(1.5);
+	player.setImage("Images/main_character.png");
+});
+
+sjs.keyDown(LEFT_KEY, function(){	
+	player.pushLeft(1.5);
+	player.setImage("Images/left_facing.png");
+});
+
+//Jumping Code
+var canJump = true;
+sjs.keyDown(UP_KEY, function(){
+	if(canJump == true){
+		canJump = false;
+		player.pushUp(30);
+
+	} //end if statement
+}); //end keyDown function
+
+//onHit functions
+sjs.onHit("player","bottom_screen",function(x,y){
+	sjs.stoppedBy(x,y);
+	  if(canJump== false){
+	  	canJump = true;
+	  	r_track = 0;
+	  	l_track = 0;
+	  }
+});
+
+sjs.onHit("player",["left_screen","right_screen","top_screen"],function(x,y){
+	sjs.stoppedBy(x,y);
+
+});
+
+//Points
+
+setInterval(function(){
+	var x = Math.floor(Math.random() *783);
+	var y = Math.floor(Math.random() *470);
+
+var berry = new sjs.Image("Images/strawberry.png");
+berry.type = "points"
+	berry.setGravity();
+	berry.setSize(40,40);
+	berry.noBounds = true;
+	berry.moveTo(x,y);
+	berry.friction = 0.3;
+
+},5000 );
+
+setInterval(function(){
+	var x = Math.floor(Math.random() *783);
+	var y = Math.floor(Math.random() *470);
+
+var lemon = new sjs.Image("Images/lemon.png");
+lemon.type = "points"
+	lemon.setGravity();
+	lemon.setSize(50,50);
+	lemon.noBounds = true;
+	lemon.moveTo(x,y);
+	lemon.friction = 0.3;
+
+},6000 );
+
+setInterval(function(){
+	var x = Math.floor(Math.random() *783);
+	var y = Math.floor(Math.random() *470);
+
+var watermelon = new sjs.Image("Images/watermelon.png");
+watermelon.type = "points"
+	watermelon.setGravity();
+	watermelon.setSize(60,60);
+	watermelon.noBounds = true;
+	watermelon.moveTo(x,y);
+	watermelon.friction = 0.3;
+
+},7000 );
+
+setInterval(function(){
+	var x = Math.floor(Math.random() *783);
+	var y = Math.floor(Math.random() *470);
+
+var peach = new sjs.Image("Images/peach.png");
+peach.type = "points"
+	peach.setGravity();
+	peach.setSize(70,70);
+	peach.noBounds = true;
+	peach.moveTo(x,y);
+	peach.friction = 0.3;
+
+},8000 );
+
+//Bombs
+setInterval(function(){
+	var x = Math.floor(Math.random() *783);
+	var y = Math.floor(Math.random() *470);
+var bomb = new sjs.Image("Images/bomb.png");
+bomb.type = "bomb"
+	bomb.setGravity();
+	bomb.setSize(70,70);
+	bomb.noBounds = true;
+	bomb.moveTo(x,y);
+	bomb.friction = 0.3;
+
+},6000 );
+
+//Power Up
+setInterval(function(){
+	var x = Math.floor(Math.random() *783);
+	var y = Math.floor(Math.random() *470);
+var powerUp = new sjs.Image("Images/power_up.png")
+powerUp.type = "powerup"
+	powerUp.setGravity();
+	powerUp.setSize(70,70);
+	powerUp.noBounds = true;
+	powerUp.moveTo(x,y);
+	powerUp.friction = 0.3;
+
+},20000 );
+
+//onHits
+sjs.onHit ("player","bomb", function(x,y){
+	window.location = "lose_screen.html"
+});
+
+sjs.onHit ("points","bottom_screen", function(x,y){
+	x.destroy();
+});
+
+sjs.onHit("player","points", function(x,y){
+	y.destroy();
+	score = score + 1
+	score_txt.setText("Score: " +score);
+	
+	localStorage.setItem("score",score);
+	if(score >= 30){
+		window.location = "win_win.html"
+}
+});
+
+sjs.onHit ("bomb","bottom_screen", function(x,y){
+	x.destroy();
+});
+
+sjs.onHit("player","powerup", function(x,y){
+	score = score + 10
+	x.setImage("Images/power_up_face.png");
+	setTimeout(function(){
+		x.setImage("Images/main_character.png");
+	}, 10000);
+	y.destroy();
+});
+
+//Score
+var score = 0
+var score_txt = new sjs.Text("Score: 0", 30, "grey");
+score_txt.fixed = true
+
+
+} //end start
+
+</script>
+</head>
+<body onload="start()">
+<h1> Turnip Ninja </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>
